@@ -1,108 +1,163 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Moltes Felicitats Antoine!</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MOLTES FELICITATS ANTOINE!!!</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
-
     body {
-      font-family: 'Raleway', sans-serif;
-      background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-      color: #333;
-      text-align: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0 15px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 20px;
+      align-items: center;
+      color: #222;
     }
-    .hidden {
-      display: none;
-    }
-    .question {
-      margin: 20px auto;
+    #container {
+      max-width: 450px;
       width: 100%;
-      max-width: 380px;
-      background-color: rgba(255,255,255,0.95);
-      padding: 16px;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      background: white;
+      padding: 30px 25px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.07);
+      border-radius: 12px;
     }
-    .option {
+    h1 {
+      text-align: center;
+      color: #00539c;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+    }
+    label {
       display: block;
-      margin: 10px 0;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #fff;
-      cursor: pointer;
-      transition: 0.3s;
+      margin-bottom: 12px;
+      font-weight: 600;
+      font-size: 1rem;
     }
-    .option.correct {
-      background-color: #c8f7c5;
-      border-color: #28a745;
-    }
-    .option.incorrect {
-      background-color: #f8d7da;
-      border-color: #dc3545;
-    }
-    .question-title {
-      font-weight: bold;
-    }
-    input[type="password"], button {
-      padding: 10px;
-      font-size: 16px;
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 1rem;
+      border: 2px solid #ddd;
       border-radius: 8px;
-      border: none;
-      margin: 10px 5px;
+      outline-offset: 2px;
+      outline-color: #00539c;
+      box-sizing: border-box;
+      margin-bottom: 20px;
     }
     button {
-      background-color: #6a11cb;
+      width: 100%;
+      padding: 14px;
+      font-size: 1.1rem;
+      background: #00539c;
       color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-weight: 700;
     }
-    a {
-      color: #6a11cb;
-      font-weight: bold;
+    button:hover {
+      background: #003f6b;
+    }
+    .answer-btn {
+      background: #fff;
+      color: #222;
+      font-weight: 600;
+      padding: 12px 20px;
+      margin: 8px 0;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      width: 100%;
+      text-align: left;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: background 0.3s, border-color 0.3s;
+      cursor: pointer;
+      user-select: none;
+    }
+    .answer-btn:hover {
+      background: #f0f0f0;
+      border-color: #999;
+    }
+    .correct {
+      background-color: #d4edda !important;
+      border-color: #28a745 !important;
+      color: #155724 !important;
+    }
+    .incorrect {
+      background-color: #f8d7da !important;
+      border-color: #dc3545 !important;
+      color: #721c24 !important;
+    }
+    #video-link {
+      text-align: center;
+      margin-top: 30px;
+    }
+    #video-link a {
+      color: #00539c;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1.1rem;
+    }
+    #video-link a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div id="login-screen">
-    <h1>MOLTES FELICITATS ANTOINE!!!</h1>
-    <p>Introdueix la contrasenya (té 5 lletres):</p>
-    <input type="password" id="password-input">
-    <button onclick="checkPassword()">Entrar</button>
-    <p id="error-message" style="color: red;"></p>
-  </div>
+  <div id="container">
+    <div id="login-screen">
+      <h1>MOLTES FELICITATS ANTOINE!!!</h1>
+      <label for="password">Introdueix la contrasenya (5 lletres):</label>
+      <input type="password" id="password" maxlength="5" autocomplete="off" />
+      <button id="login-btn">Entrar</button>
+      <p id="login-msg" style="color:red; margin-top:10px;"></p>
+    </div>
 
-  <div id="quiz-screen" class="hidden">
-    <div class="question" id="question-container"></div>
-  </div>
+    <div id="quiz-screen" style="display:none;">
+      <h1 id="question-title"></h1>
+      <div id="answers-container"></div>
+    </div>
 
-  <div id="final-screen" class="hidden">
-    <h2>Has completat el qüestionari! 🎉</h2>
-    <p><a href="https://drive.google.com/drive/folders/1AFpiseqQ9IcGqD3Sy1aQW1oGDa1R82Jl?usp=drive_link" target="_blank">Fes clic aquí per veure el vídeo 🎥</a></p>
+    <div id="video-screen" style="display:none;">
+      <h1>Has completat el qüestionari!</h1>
+      <div id="video-link">
+        <a href="https://drive.google.com/drive/folders/1AFpiseqQ9IcGqD3Sy1aQW1oGDa1R82Jl?usp=drive_link" target="_blank" rel="noopener noreferrer">
+          Mira el vídeo que t'he fet 🎉
+        </a>
+      </div>
+    </div>
   </div>
 
   <script>
-    const password = "nigga";
-    const questions = [
+    const passwordInput = document.getElementById("password");
+    const loginBtn = document.getElementById("login-btn");
+    const loginMsg = document.getElementById("login-msg");
+    const loginScreen = document.getElementById("login-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const videoScreen = document.getElementById("video-screen");
+    const questionTitle = document.getElementById("question-title");
+    const answersContainer = document.getElementById("answers-container");
+
+    const correctPassword = "Nigga";
+
+    const quizData = [
       {
-        text: "Quin es el primer missatge que envia lantoine al joan pel mati a la uni:",
-        options: [
+        question: "Quin es el primer missatge que envia l'Antoine al Joan pel matí a la uni:",
+        answers: [
           "Bon dia",
           "Bro no hi ha classe",
           "Ja estic a la uni",
-          "Bro no t'ho creuras, arribo tard"
+          "Bro no t'ho creuràs, arribo tard"
         ],
         correctIndex: 3
       },
       {
-        text: "Quina ha sigut l'assignatura a la que mes han anat el joan i l'antoine aquest qautri:",
-        options: [
+        question: "Quina ha sigut l'assignatura a la que més han anat el Joan i l'Antoine aquest quatri:",
+        answers: [
           "Dispos",
           "Control",
           "Café a la campana",
@@ -111,8 +166,8 @@
         correctIndex: 2
       },
       {
-        text: "Que els hi depara al joan i l'antoine un dimarts pel mati a la UPC:",
-        options: [
+        question: "Què els hi depara al Joan i l'Antoine un dimarts pel matí a la UPC:",
+        answers: [
           "Diversió",
           "Felicitat",
           "Aprenentatge",
@@ -121,9 +176,9 @@
         correctIndex: 3
       },
       {
-        text: "En que son experts el joan i l'antoine:",
-        options: [
-          "Portar l'asingatura al dia",
+        question: "En què son experts el Joan i l'Antoine:",
+        answers: [
+          "Portar l'assignatura al dia",
           "Arribar dora",
           "Socialitzar amb la gent de la nostre carrera",
           "Cumbacks"
@@ -134,54 +189,59 @@
 
     let currentQuestion = 0;
 
-    function checkPassword() {
-      const input = document.getElementById('password-input').value;
-      const errorMsg = document.getElementById('error-message');
-      if (input === password) {
-        document.getElementById('login-screen').classList.add('hidden');
-        document.getElementById('quiz-screen').classList.remove('hidden');
-        showQuestion();
-      } else {
-        errorMsg.textContent = "Contrasenya incorrecta. Torna-ho a intentar.";
+    loginBtn.addEventListener("click", () => {
+      const pw = passwordInput.value.trim().toLowerCase();
+      if (pw.length !== 5) {
+        loginMsg.textContent = `La contrasenya té 5 lletres, has escrit ${pw.length}.`;
+        return;
       }
-    }
+      if (pw === correctPassword) {
+        loginScreen.style.display = "none";
+        quizScreen.style.display = "block";
+        loginMsg.textContent = "";
+        showQuestion(currentQuestion);
+      } else {
+        loginMsg.textContent = "Contrasenya incorrecta. Torna-ho a provar!";
+      }
+    });
 
-    function showQuestion() {
-      const q = questions[currentQuestion];
-      const container = document.getElementById('question-container');
-      container.innerHTML = `<p class='question-title'>${q.text}</p>`;
+    function showQuestion(index) {
+      const q = quizData[index];
+      questionTitle.textContent = q.question;
+      answersContainer.innerHTML = "";
 
-      q.options.forEach((option, index) => {
-        const btn = document.createElement('button');
-        btn.textContent = option;
-        btn.className = 'option';
-        btn.onclick = () => handleAnswer(btn, index);
-        container.appendChild(btn);
+      q.answers.forEach((answer, i) => {
+        const btn = document.createElement("button");
+        btn.classList.add("answer-btn");
+        btn.textContent = answer;
+        btn.disabled = false;
+
+        btn.addEventListener("click", () => {
+          // Deshabilitar tots els botons
+          Array.from(answersContainer.children).forEach(b => b.disabled = true);
+
+          if (i === q.correctIndex) {
+            btn.classList.add("correct");
+          } else {
+            btn.classList.add("incorrect");
+            // Marcar la correcta també
+            answersContainer.children[q.correctIndex].classList.add("correct");
+          }
+
+          // Passar a la següent pregunta després d'1.5s
+          setTimeout(() => {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+              showQuestion(currentQuestion);
+            } else {
+              quizScreen.style.display = "none";
+              videoScreen.style.display = "block";
+            }
+          }, 1500);
+        });
+
+        answersContainer.appendChild(btn);
       });
-    }
-
-    function handleAnswer(button, selectedIndex) {
-      const q = questions[currentQuestion];
-      const buttons = document.querySelectorAll('.option');
-
-      buttons.forEach((btn, i) => {
-        btn.disabled = true;
-        if (i === q.correctIndex) {
-          btn.classList.add('correct');
-        } else if (i === selectedIndex) {
-          btn.classList.add('incorrect');
-        }
-      });
-
-      setTimeout(() => {
-        currentQuestion++;
-        if (currentQuestion < questions.length) {
-          showQuestion();
-        } else {
-          document.getElementById('quiz-screen').classList.add('hidden');
-          document.getElementById('final-screen').classList.remove('hidden');
-        }
-      }, 2000);
     }
   </script>
 </body>
