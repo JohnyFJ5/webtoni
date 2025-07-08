@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moltes Felicitats Antoine!</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Raleway', sans-serif;
+      background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+      color: #333;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .hidden {
+      display: none;
+    }
+    .question {
+      margin: 20px auto;
+      width: 100%;
+      max-width: 380px;
+      background-color: rgba(255,255,255,0.95);
+      padding: 16px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .option {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .option.correct {
+      background-color: #c8f7c5;
+      border-color: #28a745;
+    }
+    .option.incorrect {
+      background-color: #f8d7da;
+      border-color: #dc3545;
+    }
+    .question-title {
+      font-weight: bold;
+    }
+    input[type="password"], button {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      margin: 10px 5px;
+    }
+    button {
+      background-color: #6a11cb;
+      color: white;
+    }
+    a {
+      color: #6a11cb;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="login-screen">
+    <h1>MOLTES FELICITATS ANTOINE!!!</h1>
+    <p>Introdueix la contrasenya (té 5 lletres):</p>
+    <input type="password" id="password-input">
+    <button onclick="checkPassword()">Entrar</button>
+    <p id="error-message" style="color: red;"></p>
+  </div>
+
+  <div id="quiz-screen" class="hidden">
+    <div class="question" id="question-container"></div>
+  </div>
+
+  <div id="final-screen" class="hidden">
+    <h2>Has completat el qüestionari! 🎉</h2>
+    <p><a href="https://drive.google.com/drive/folders/1AFpiseqQ9IcGqD3Sy1aQW1oGDa1R82Jl?usp=drive_link" target="_blank">Fes clic aquí per veure el vídeo 🎥</a></p>
+  </div>
+
+  <script>
+    const password = "nigga";
+    const questions = [
+      {
+        text: "Quin es el primer missatge que envia lantoine al joan pel mati a la uni:",
+        options: [
+          "Bon dia",
+          "Bro no hi ha classe",
+          "Ja estic a la uni",
+          "Bro no t'ho creuras, arribo tard"
+        ],
+        correctIndex: 3
+      },
+      {
+        text: "Quina ha sigut l'assignatura a la que mes han anat el joan i l'antoine aquest qautri:",
+        options: [
+          "Dispos",
+          "Control",
+          "Café a la campana",
+          "Pote"
+        ],
+        correctIndex: 2
+      },
+      {
+        text: "Que els hi depara al joan i l'antoine un dimarts pel mati a la UPC:",
+        options: [
+          "Diversió",
+          "Felicitat",
+          "Aprenentatge",
+          "Fatiha treatment"
+        ],
+        correctIndex: 3
+      },
+      {
+        text: "En que son experts el joan i l'antoine:",
+        options: [
+          "Portar l'asingatura al dia",
+          "Arribar dora",
+          "Socialitzar amb la gent de la nostre carrera",
+          "Cumbacks"
+        ],
+        correctIndex: 3
+      }
+    ];
+
+    let currentQuestion = 0;
+
+    function checkPassword() {
+      const input = document.getElementById('password-input').value;
+      const errorMsg = document.getElementById('error-message');
+      if (input === password) {
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        showQuestion();
+      } else {
+        errorMsg.textContent = "Contrasenya incorrecta. Torna-ho a intentar.";
+      }
+    }
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      const container = document.getElementById('question-container');
+      container.innerHTML = `<p class='question-title'>${q.text}</p>`;
+
+      q.options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.textContent = option;
+        btn.className = 'option';
+        btn.onclick = () => handleAnswer(btn, index);
+        container.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(button, selectedIndex) {
+      const q = questions[currentQuestion];
+      const buttons = document.querySelectorAll('.option');
+
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === q.correctIndex) {
+          btn.classList.add('correct');
+        } else if (i === selectedIndex) {
+          btn.classList.add('incorrect');
+        }
+      });
+
+      setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+          showQuestion();
+        } else {
+          document.getElementById('quiz-screen').classList.add('hidden');
+          document.getElementById('final-screen').classList.remove('hidden');
+        }
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
