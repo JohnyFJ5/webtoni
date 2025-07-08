@@ -195,7 +195,7 @@
         loginMsg.textContent = `La contrasenya té 5 lletres, has escrit ${pw.length}.`;
         return;
       }
-      if (pw === correctPassword) {
+      if (pw === correctPassword.toLowerCase()) {
         loginScreen.style.display = "none";
         quizScreen.style.display = "block";
         loginMsg.textContent = "";
